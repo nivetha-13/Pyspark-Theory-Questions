@@ -114,5 +114,32 @@ Best join Strategy
 - data size, memory limits & distribution. 
 - for large scale joins, I typically perform a hash join or sort merge join depending on the scenario. 
 - filtering data before join to reduce Volume
-- Selecting only 
+- Selecting only required cols
+- Ensuring the join key is indexed or partitioned
+- Handling Data skew
+
+15. what type of join would you avoid for performance reasons ?
+- cross join
+- join on non-indexed cols
+- full outer join
+- Many to Many joins on larger datasets. 
+- Join using function in the join (this prevents index usage)
+- left join followed by filtering the right table incorrectly (this silently turns into a inner join)
+- joining huge table before filtering
+- self join on large tables
+
+16. How do you process large CSV files w/o running to memory issue ?
+- use spark dataframes (not pandas - this loads the whole file into memory on single machine & will often crash for large datasets)
+- Explicitly define the schema
+- read required cols
+- filte early
+- tune partitions (Aim for 100-250 MB per partition)
+- Avoid collect & huge display()
+- Persist wisely (if reused multiple times)
+- Convert CSV -> delta / parquet 
+- CLuster sizing matters
+
+17. PARTITIONING
+- Splitting data into seperate folders based on col value
+- The su
 
