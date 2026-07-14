@@ -1,0 +1,9 @@
+Pyspark
+1. Repartition vs Coalesce
+2. groupbyKey vs reduceByKey
+3. Narrow vs Wide Transformations
+4. Cache vs Persist
+5. Broadcast Join in Pyspark
+6. DataFrame vs RDD
+7. Handling Data Skew in Spark 
+8. Delta lake Merge Operations
