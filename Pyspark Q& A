@@ -141,5 +141,12 @@ Best join Strategy
 
 17. PARTITIONING
 - Splitting data into seperate folders based on col value
-- The su
+- The system reads only year = 2025 * Partition Pruning
+- best for low cardinality columns
+* Partition first , bucket inside partitions
+
+18. BUCKETING
+- dividing data into a fixed no of files using a hash function
+- best for high cardinality columns
+
 
