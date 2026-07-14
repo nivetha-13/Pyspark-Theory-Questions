@@ -1,0 +1,18 @@
+Pyspark Coding Q & A
+-------------------
+Question 1 : Calculate the total sales per customers & per product category on sales data using Pyspark
+
+#calculate total sale amount
+df = df.withColumn("sales_amount",col("quantity") * col("price"))
+
+# total sales per customer
+
+custom_sales = df.groupBy("customer_id").agg(sum("sales_amount").alias("total_sales"))
+print("Total Sales Per Customer")
+customer_sales.show()
+
+# total sales per product category
+cat_sales = df.groupBy("prodcut_category")
+              .agg(sum("sales_amt").alias("tot_sales"))
+print("Total Sales per product")
+cat_sales.show()
