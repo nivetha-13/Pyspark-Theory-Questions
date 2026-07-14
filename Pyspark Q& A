@@ -11,4 +11,48 @@ Pyspark Common Questions (Theory)
 * when correctness & balance matters
 * Performs a full shuffle, which makes it slower but ensures even data distribution, 
 improving performance for joins & aggregations
-* 
+
+3. Root causes
+* data skew
+* too many / too few partitions
+* expensive shuffle operations
+* small file problem
+* memory issue / spill
+* inefficient joins
+* unnecessary wide transf
+
+4. Optimization Strategies
+* Enable AQE ( Adaptive Query Execution)
+* Partition Pruning
+* Use delta optimization 
+* cache only when required
+* push filters early
+* optimize cluster usage
+* optimize file formats
+* Avoid UDFs when possible
+
+5. Common Optimization
+* cluster cost is heavily affected by bad spark code
+* Avoid unneccessary repartition()
+* use broadcast joins for small tables
+* filter data early
+* Avoid select * 
+* cache only when reused
+* use partition pruning
+
+6. Parquet files - Delta tables ?
+* yes, Delta tables are built on top of parquet files, when reading a delta table, you are actually reading immutable parqurt
+files containing the data, managed by a JSON based transaction log (_delta_log) that ensures ACID transactions,
+schema enforcements & time travel. 
+
+Key details on Parquet & delta:
+Storage format -> The actual data is stored in snappy compressed parquet files.
+Delta log -> A delta table includes a _delta-log / directory containing JSON files that tracks additions
+& removal of parquet files. 
+
+Difference -> Parquet is just the storage format, delta lake is an optimization / governance layer over those parquet files.
+
+Summary -> Delta table files are essentially parquet files + transaction logs. 
+
+7. How do u resolve a 'Metadata-only' file scan issue in spark & which specific join strategy
+preents OOM errors for skewed 1TB+ datasets ? 
