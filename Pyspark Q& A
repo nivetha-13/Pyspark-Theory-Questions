@@ -56,3 +56,15 @@ Summary -> Delta table files are essentially parquet files + transaction logs.
 
 7. How do u resolve a 'Metadata-only' file scan issue in spark & which specific join strategy
 preents OOM errors for skewed 1TB+ datasets ? 
+* A Metadata only file scan happens when spark reads only file metadata (like partitions, file names, schema, row count if available) 
+instead of full file contents.
+* it can become an issue when :
+- too many small files exist
+- partition discovery is expensive
+- Spark sends time listing files instead of processing data 
+- delta / parquet tables have excessive partitions
+Resolve ?
+a. Reduce small files (comp)
+- combine many tiny files into fewer larger files
+df.repartition(10).write.mode("overwrite").parquet(path0
+- repartition -> redistributes the data.
