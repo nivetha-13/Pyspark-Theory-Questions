@@ -64,7 +64,19 @@ instead of full file contents.
 - Spark sends time listing files instead of processing data 
 - delta / parquet tables have excessive partitions
 Resolve ?
+- Reduce small files
+- Avoid over partitioning -> If partitioned by high cardinality column , spark scans too much metadata.
+* High Cardinality Col -> user_id
+* Low cardinality col -> gender / status
 a. Reduce small files (comp)
 - combine many tiny files into fewer larger files
 df.repartition(10).write.mode("overwrite").parquet(path0
 - repartition -> redistributes the data.
+
+Summary
+A) Reduce small files
+B) Avoid over partitioning
+C) Enable Partition Pruning
+D) Cache frequently used tables
+E) Tune spark file listing parallelism. 
+
