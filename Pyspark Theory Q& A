@@ -149,4 +149,59 @@ Best join Strategy
 - dividing data into a fixed no of files using a hash function
 - best for high cardinality columns
 
+19. HOW WOULD YOU ENSURE DATA CONSISTENCY & RELIABILITY IN A DISTRIBUTED SYSTEM ?
+to ensure data consistency
+- consistency model (consistency requirement) -- Payment (strong) & Analytics ( Eventual consistency)
+- fault tolerant
+- resilient system design
+- Replication Strategies
+- idempotency
+- Monitoring & Observability
+     - Tracking replication lag
+     - Failed writes &
+     - Inconsistencies - to quickly detect & remove from failures
+
+20. HOW WOULD YOU IMPROVE THE PERFORMANCE OF A SLOW RUNNING ETL JOBS ?
+Profile the ETL pipeline first
+- source system bottleneck ? - slow DB / API extraction
+- trasnf bottleneck - expensive join / aggregation
+- target bottleneck - slow inserts or indexing
+- infrastructure bottleneck - under provisioned compute
+Optimize data extraction
+- incremental loads instead of full refreshes
+- reduce data pulled
+- parallel extraction
+Optimization techniques
+- imp joins
+- push computations down
+- reduce expensive operations
+- use partitioning
+Optimize loading
+Add parallelism & scaling
+Improves orchestration & dependency design
+improve data formats & storage
+Monitoring
+
+21. SPARK STREAMING
+
+BASIC ARCHITECTURE
+source -> processing -> output
+Kafka -> Spark Structured streaming -> db / Dashboard
+
+Common sources:
+- Apache Kafka
+- log files
+- API's 
+- cloud event streams
+
+
+
+
+
+
+
+
+
+
+
 
