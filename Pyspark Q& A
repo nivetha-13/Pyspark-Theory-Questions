@@ -80,3 +80,31 @@ C) Enable Partition Pruning
 D) Cache frequently used tables
 E) Tune spark file listing parallelism. 
 
+8. Join Strategy to prevent OOM for skewed 1 TB + datasets
+Best join Strategy
+- Broadcast hash join
+- Salting Technique
+- AQE
+
+9. BROADCAST JOIN
+- No shuffle on big table
+- Prevents executor overload
+- fastedt option
+
+10. NARROW TRANSFORMATION
+- each o/p partition depends on a single i/p partitions
+- there is no shuffle involved
+
+11. WIDE TRANSFORMATION
+- join , groupBy
+- when your data is redistributed across the clusters
+- in shuffle, the same kys land on the same partition. 
+
+12. SPARK CONTEXT 
+- low level API, mainly for RDD operations
+- is the core entry point of spark that connects the application to the cluster, manags resources 
+& executes distributed tasks.
+
+13. SPARK SESSION
+- High level entry point for dataframes, SQL, streaming ( used in modern Spark)
+
