@@ -104,7 +104,15 @@ Best join Strategy
 - low level API, mainly for RDD operations
 - is the core entry point of spark that connects the application to the cluster, manags resources 
 & executes distributed tasks.
+- In modern spark, it is usually  accessed through Spark Session. 
 
 13. SPARK SESSION
 - High level entry point for dataframes, SQL, streaming ( used in modern Spark)
+
+14. How would you perform a join on very large datasets ?
+- points to think
+- data size, memory limits & distribution. 
+- for large scale joins, I typically perform a hash join or sort merge join depending on the scenario. 
+- filtering data before join to reduce Volume
+- Selecting only 
 
