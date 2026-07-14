@@ -1,0 +1,14 @@
+Pyspark Common Questions (Theory)
+1. Coalesce()
+* reduces partitions w/o a full shuffle, making it faster but potentially uneven (when speed & reducing partitions matter)
+* for reducing o/p files
+* avoiding too many small files.
+* avoids shuffle, making it faster & more efficient, but can lead to uneven partitions.
+
+2. repartition()
+* Performs a full shuffle to even distribute the data & can both increase & decrease partitions
+* for when I need balances data for joins/ aggregations
+* when correctness & balance matters
+* Performs a full shuffle, which makes it slower but ensures even data distribution, 
+improving performance for joins & aggregations
+* 
