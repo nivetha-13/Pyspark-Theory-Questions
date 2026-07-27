@@ -1,1 +1,34 @@
+DATABRICKS AUTO LOADER
+- is a scalable & efficient way to ingest new files (like parquet, CSV, JSON) from cloud storage such as ADLS,
+S3 into databricks in an incremental, streaming friendly way. 
+- designed for large scale & conti arriving data.
+- 
+
+WHAT PROBLEM DOES AUTO LOADER SOLVE ?
+
+W/O AUTO LOADER
+--------------
+- spark has to list all files in a dictionary
+- re-scan folders repeatedly
+- struggles with millions of files
+- high metadata overhead + slow perf.
+
+with AUTOLOADER
+---------------
+- only processess new files incrementally
+- tracks state using checkpointing
+- scales to millions/ billion of files efficiently
+
+HOW IT WORKS ?
+- you point it to a storage path (adls)
+- it detects new files automatically
+- it keeps track of processed files (via checkpoint)
+- it loads only new data into spark. 
+
+KEY FEATURES
+- ince file processing
+- scalable file discovery
+- schema inference & evolution
+- check pointing
+- works with streaming + batch
 
