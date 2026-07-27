@@ -68,7 +68,7 @@ improving performance for joins & aggregations
 * cache only when reused
 * use partition pruning
 
-6. Parquet files - Delta tables ?
+6. DELTA TABLES
 ----------------------------------
 * yes, Delta tables are built on top of parquet files, when reading a delta table, you are actually reading immutable parqurt
 files containing the data, managed by a JSON based transaction log (_delta_log) that ensures ACID transactions,
@@ -375,7 +375,17 @@ Z-ORDER
 bits & physically co-locates related rows. 
 - this improves file level data skipping because delta stores min/max statistics for each file
 - queries scan fewer files when filtering on zorder cols. 
-- avoid zorder on low cardinality cols, 
+- avoid zorder on low cardinality cols
+- for newer databricks workloads, liquid clustering is often preferred over manual zorder. 
+
+LIQUID CLUSTERING
+--------------------
+- is an evolution of zorder in databricks
+- instead of manually running optimize zorder, we define clustering keys & databricks incrementally data 
+locality automatically. 
+- it avoids rigid partitions, reduces full table rewrites & works better for large frequently updated delta table. 
+
+
 VACUUM
 ------
 - is a maintenance command in delta lake used to permanently delete old, unneeded old data files from storage. 
@@ -409,6 +419,32 @@ without vaccum:
 - 100 GB active data
 - 900GB old files.
 - total storage : 1 TB. 
+
+PERFORMANCE BETWEEN DELTA LAKE CDF vs MERGE OPERATION
+-----------------------------------------------------
+CDF & MERGE - are not direct alternatives - they solve diff problems & are usually used together in modern delta lake pipeline. 
+CDF - change data feed
+- used to capture only incremental changes in a delta table such as insert, update, delete. 
+- with CDF, I can read only changed rows b/w delta versioning using readChangeFeed = value, so instead of processing 
+the full dataset. process only inc records.
+- CDF -- doesn't replace merge
+
+MERGE
+- used to apply those changes to a target delta table using upsert logic.
+- for a perf perspective - the major diff is the amt of data processed.
+- if we use merge alone, spark may need to scan a large portion of the src & tgt table. perf join, shuffle & rewrite
+affected files.
+- if I have a 500 million row table, only 10k rows changed, merge w/o incremental logic may still process a significant 
+amt of data. 
+
+EXPLAIN HOW SPARK TUNGSTEN ENGINE IMPROVES EXECUTION THROUGH OFF HEAP MEMORY & WHOLE CODE GENERATION
+OFF HEAP MEMORY
+- stores data outside JVM heap in a compact binary format, reducing garbage collection overhead & improving memory efficiency.
+
+WHOLE CODE GENERATION
+- dynamically generate optimized java bytecode by combining multiple operators into a single execution path,
+reducing function call overhead & intermediate obj creation.
+
 
 
 
