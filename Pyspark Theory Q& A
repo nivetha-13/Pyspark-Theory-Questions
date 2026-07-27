@@ -1,11 +1,14 @@
 Pyspark Common Questions (Theory)
+-----------------------------
 1. Coalesce()
+----------------
 * reduces partitions w/o a full shuffle, making it faster but potentially uneven (when speed & reducing partitions matter)
 * for reducing o/p files
 * avoiding too many small files.
 * avoids shuffle, making it faster & more efficient, but can lead to uneven partitions.
 
 2. repartition()
+----------------
 * Performs a full shuffle to even distribute the data & can both increase & decrease partitions
 * for when I need balances data for joins/ aggregations
 * when correctness & balance matters
@@ -13,6 +16,7 @@ Pyspark Common Questions (Theory)
 improving performance for joins & aggregations
 
 3. Root causes
+--------------
 * data skew
 * too many / too few partitions
 * expensive shuffle operations
@@ -22,6 +26,7 @@ improving performance for joins & aggregations
 * unnecessary wide transf
 
 4. Optimization Strategies
+--------------------------
 * Enable AQE ( Adaptive Query Execution)
 * Partition Pruning
 * Use delta optimization 
@@ -32,6 +37,7 @@ improving performance for joins & aggregations
 * Avoid UDFs when possible
 
 5. Common Optimization
+-----------------------
 * cluster cost is heavily affected by bad spark code
 * Avoid unneccessary repartition()
 * use broadcast joins for small tables
@@ -41,11 +47,13 @@ improving performance for joins & aggregations
 * use partition pruning
 
 6. Parquet files - Delta tables ?
+----------------------------------
 * yes, Delta tables are built on top of parquet files, when reading a delta table, you are actually reading immutable parqurt
 files containing the data, managed by a JSON based transaction log (_delta_log) that ensures ACID transactions,
 schema enforcements & time travel. 
 
 Key details on Parquet & delta:
+-------------------------------
 Storage format -> The actual data is stored in snappy compressed parquet files.
 Delta log -> A delta table includes a _delta-log / directory containing JSON files that tracks additions
 & removal of parquet files. 
@@ -53,6 +61,16 @@ Delta log -> A delta table includes a _delta-log / directory containing JSON fil
 Difference -> Parquet is just the storage format, delta lake is an optimization / governance layer over those parquet files.
 
 Summary -> Delta table files are essentially parquet files + transaction logs. 
+---------
+
+WITH DELTA
+----------
+- ACID transaction
+- Efficient file rewrites
+- time travel support
+- Optimized deletes.
+
+
 
 7. How do u resolve a 'Metadata-only' file scan issue in spark & which specific join strategy
 preents OOM errors for skewed 1TB+ datasets ? 
@@ -91,10 +109,15 @@ Best join Strategy
 - Prevents executor overload
 - fastedt option
 
+SHUFFLE
+---------
+- when your data is redistributed across the cluster
+- the same key land on the same partition. 
+
 10. Transformation
 - Operation that creates a new dataset from existing one. 
 
-10. NARROW TRANSFORMATION
+11. NARROW TRANSFORMATION
 - each o/p partition depends on a single i/p partitions
 - there is no shuffle involved
 - data stays in same partition
@@ -103,7 +126,7 @@ Best join Strategy
 - select
 - withcolumn
 
-11. WIDE TRANSFORMATION
+12. WIDE TRANSFORMATION
 ------------------------
 - join , groupBy
 - when your data is redistributed across the clusters, data moves across partitions
