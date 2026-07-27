@@ -91,25 +91,50 @@ Best join Strategy
 - Prevents executor overload
 - fastedt option
 
+10. Transformation
+- Operation that creates a new dataset from existing one. 
+
 10. NARROW TRANSFORMATION
 - each o/p partition depends on a single i/p partitions
 - there is no shuffle involved
+- data stays in same partition
+- filter
+- map
+- select
+- withcolumn
 
 11. WIDE TRANSFORMATION
+------------------------
 - join , groupBy
-- when your data is redistributed across the clusters
+- when your data is redistributed across the clusters, data moves across partitions
 - in shuffle, the same kys land on the same partition. 
+- groupby()
+- join
+- distinct
+- repartition
+- reduceBy
+
+ACTION            
+-------
+- show()
+- collect()
+- count()
+- save()
+
 
 12. SPARK CONTEXT 
+----------------------
 - low level API, mainly for RDD operations
 - is the core entry point of spark that connects the application to the cluster, manags resources 
 & executes distributed tasks.
 - In modern spark, it is usually  accessed through Spark Session. 
 
 13. SPARK SESSION
+-----------------
 - High level entry point for dataframes, SQL, streaming ( used in modern Spark)
 
 14. How would you perform a join on very large datasets ?
+----------------------------------------------------------
 - points to think
 - data size, memory limits & distribution. 
 - for large scale joins, I typically perform a hash join or sort merge join depending on the scenario. 
@@ -119,6 +144,7 @@ Best join Strategy
 - Handling Data skew
 
 15. what type of join would you avoid for performance reasons ?
+---------------------------------------------------------------
 - cross join
 - join on non-indexed cols
 - full outer join
@@ -129,6 +155,7 @@ Best join Strategy
 - self join on large tables
 
 16. How do you process large CSV files w/o running to memory issue ?
+--------------------------------------------------------------------
 - use spark dataframes (not pandas - this loads the whole file into memory on single machine & will often crash for large datasets)
 - Explicitly define the schema
 - read required cols
@@ -140,16 +167,19 @@ Best join Strategy
 - CLuster sizing matters
 
 17. PARTITIONING
+----------------
 - Splitting data into seperate folders based on col value
 - The system reads only year = 2025 * Partition Pruning
 - best for low cardinality columns
 * Partition first , bucket inside partitions
 
 18. BUCKETING
+-------------
 - dividing data into a fixed no of files using a hash function
 - best for high cardinality columns
 
 19. HOW WOULD YOU ENSURE DATA CONSISTENCY & RELIABILITY IN A DISTRIBUTED SYSTEM ?
+---------------------------------------------------------------------------------
 to ensure data consistency
 - consistency model (consistency requirement) -- Payment (strong) & Analytics ( Eventual consistency)
 - fault tolerant
@@ -162,6 +192,7 @@ to ensure data consistency
      - Inconsistencies - to quickly detect & remove from failures
 
 20. HOW WOULD YOU IMPROVE THE PERFORMANCE OF A SLOW RUNNING ETL JOBS ?
+-----------------------------------------------------------------------
 Profile the ETL pipeline first
 - source system bottleneck ? - slow DB / API extraction
 - trasnf bottleneck - expensive join / aggregation
@@ -183,6 +214,7 @@ improve data formats & storage
 Monitoring
 
 21. SPARK STREAMING
+-------------------
 
 BASIC ARCHITECTURE
 source -> processing -> output
