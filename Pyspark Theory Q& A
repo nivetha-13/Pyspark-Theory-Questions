@@ -68,6 +68,46 @@ improving performance for joins & aggregations
 * cache only when reused
 * use partition pruning
 
+6. PARQUET
+----------
+- open source columnar file format.
+- designed for efficient storage & analysis on big data
+- developed by twitter & now an Apache project. 
+- works with any data processing engine.
+- optimized for analytics, not for fast row level writes. 
+
+PARQUET FILE STRUCTURE
+-----------------------
+FOOTER 
+ROW GROUP 1
+ROW GROUP 2
+...........
+ROW GROUP 3
+
+MAGIC
+(PAR1)
+
+FOOTER 
+- contains metadata & schema
+- points to all row groups
+
+ROW GROUP 
+- horizontal partition of data
+- default size : 12b MB
+
+COLUMN CHUNKS ( inside row group)
+- each col stored seperately
+- encoded & compressed
+
+MAGIC NUMBER
+- identifies file as parquet(PAR1)
+
+WHY COLUMANR ? 
+- better performance
+- read only required cols
+- less i/o
+
+
 6. DELTA TABLES
 ----------------------------------
 * yes, Delta tables are built on top of parquet files, when reading a delta table, you are actually reading immutable parqurt
