@@ -4,7 +4,7 @@ Pyspark Common Questions (Theory)
 APACHE SPARK vs HADOOP MAPREDUCE
 (the shift that changes big data forever)
 
-MAPREDUCE
+MAP REDUCE
 - washing 1 plate, drying it, putting it away, then picking up the next plate. 
 - disk based processing ( slow & disk I/O heavy)
 - supports only batch
@@ -368,6 +368,14 @@ ZORDER BY MEMBER_ID
 - internally, it rewrites many small parquet files into fewer larger files 
 & updates the delta trans log w/o modifying files in place.
 
+Z-ORDER
+------
+- is a  multi dimensional clustering mechanism
+- instead of simple sorting, delta converts col values into morton/ z order values by interleaving
+bits & physically co-locates related rows. 
+- this improves file level data skipping because delta stores min/max statistics for each file
+- queries scan fewer files when filtering on zorder cols. 
+- avoid zorder on low cardinality cols, 
 VACUUM
 ------
 - is a maintenance command in delta lake used to permanently delete old, unneeded old data files from storage. 
