@@ -103,9 +103,22 @@ MAGIC NUMBER
 - identifies file as parquet(PAR1)
 
 WHY COLUMANR ? 
-- better performance
+- better performance & better compression (similar values stored together)
 - read only required cols
 - less i/o
+- faster aggregation
+- ideal for analytics
+
+KEY FEATURES
+COLUMNAR STORAGE - read only what you need
+compression - snappy, gzip, zstd
+SCHEMA SUPPORT - self describing ( in footer)
+EFFICIENT ENCODING - dictionary, Delta
+SPLITTABLE - enables ||le processing
+NESTED DATA SUPPORT - arrays, maps, structs
+CROSS PLATFORM - lang & engine agnostic.
+
+
 
 
 6. DELTA TABLES
