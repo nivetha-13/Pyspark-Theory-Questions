@@ -25,7 +25,7 @@ improving performance for joins & aggregations
 * inefficient joins
 * unnecessary wide transf
 
-4. Optimization Strategies
+4. OPTIMIZATIONS 
 --------------------------
 * Enable AQE ( Adaptive Query Execution)
 * Partition Pruning
@@ -35,9 +35,9 @@ improving performance for joins & aggregations
 * optimize cluster usage
 * optimize file formats
 * Avoid UDFs when possible
-
-5. Common Optimization
------------------------
+* avoid unneccessary shuffles
+* repartition data appropriately
+* handle data skew using salting technique
 * cluster cost is heavily affected by bad spark code
 * Avoid unneccessary repartition()
 * use broadcast joins for small tables
@@ -70,6 +70,7 @@ WITH DELTA
 - time travel support
 - Optimized deletes.
 
+DELTA TABLE -- Parquet file + trans log
 
 
 7. How do u resolve a 'Metadata-only' file scan issue in spark & which specific join strategy
@@ -248,6 +249,11 @@ Common sources:
 - log files
 - API's 
 - cloud event streams
+
+22. MAP() vs FLATMAP()
+
+map() - each i/p produces exactly 1 o/p row.
+flatmap() - can return multiple o/p elements for each i/p element & then flatten it. 
 
 
 
