@@ -111,6 +111,16 @@ DELTA LIVE TABLES (DLT)
 - delta table -- data storage
 - DLT - data pipeline automation
 
+DLT vs TRADITIONAL SPARK NOTEBOOK
+DLT
+-when I need managed, reliable, production-grade ETL with buiil-in monitoring, lineage & DQ.
+- especially for bronze/silver PL or streaming workloads.
+TRADITIONAL SPARK NOTEBOOK
+- when the logic is highly customised, requires external integration / fine grained perf tuning.
+- hybrid approach works best
+- spark notebook - manual driving -> more control, more flexibility
+- DLT - Automatic car with built-in safety features -> less manual effort, easier maintenance. 
+
 
 7. How do u resolve a 'Metadata-only' file scan issue in spark & which specific join strategy
 preents OOM errors for skewed 1TB+ datasets ? 
@@ -444,6 +454,10 @@ OFF HEAP MEMORY
 WHOLE CODE GENERATION
 - dynamically generate optimized java bytecode by combining multiple operators into a single execution path,
 reducing function call overhead & intermediate obj creation.
+- together these optimizations
+- improves CPU utilization
+- memory management
+- overall spark execution perf. 
 
 
 
