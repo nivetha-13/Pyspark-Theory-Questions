@@ -85,14 +85,31 @@ Difference -> Parquet is just the storage format, delta lake is an optimization 
 Summary -> Delta table files are essentially parquet files + transaction logs. 
 ---------
 
-WITH DELTA
-----------
+
+DELTA TABLE -- Parquet file + trans log
+- is a table format / storage layer built on top of parquet.
+- it stores data with additional capabilities likee
 - ACID transaction
 - Efficient file rewrites
 - time travel support
 - Optimized deletes.
+- schema evolution
+- upserts (Merge)
+- deletes & updates
 
-DELTA TABLE -- Parquet file + trans log
+DELTA LIVE TABLES (DLT)
+- is a managed ETL/ELT pipeline framework in databricks
+- instead of manually managing ETL jobs, DLT :
+    - builds pipeline
+    - orchestrate dependencies
+    - handles failures
+    - monitor jobs
+    - validates DQ
+    - automates batch / streaming execution
+- in DLT, o/p tables are generally delta tables underneath. 
+- DLT internally creates & manages delta tables
+- delta table -- data storage
+- DLT - data pipeline automation
 
 
 7. How do u resolve a 'Metadata-only' file scan issue in spark & which specific join strategy
