@@ -196,6 +196,17 @@ ACTION
 - The system reads only year = 2025 * Partition Pruning
 - best for low cardinality columns
 * Partition first , bucket inside partitions
+- data is split into partitions & distributed across executors
+- good partitioning ensures parallelism & avoids small / large tasks.
+
+HOW TO DECIDE ?
+- RULE OF THUMB : 2-3x total cores in the cluster
+- consider data size, cluster resources & task complexity
+- use repartition() to increase
+- coalesce() to decrease
+- monitor in spark UI & adjust. 
+
+
 
 18. BUCKETING
 -------------
@@ -250,10 +261,51 @@ Common sources:
 - API's 
 - cloud event streams
 
+CORE CONCEPTS
+------------
+- Micro bacth processing ( collects events for 5 seconds)
+- structured streaming -- it simlifies stream processing because it uses the same df & SQL API's as batch spark.
+- windowig
+- checkpointing -- stores intermediate metadata / state for recovery during failures.
+- fault tolerance
+
+WHY KAFKA WITH SPARK?
+- kafka acts as a durable message broker & spark consumes those events for processing.
+
 22. MAP() vs FLATMAP()
 
 map() - each i/p produces exactly 1 o/p row.
 flatmap() - can return multiple o/p elements for each i/p element & then flatten it. 
+
+BASIC CONCEPTS
+----------------
+DATA PARTITIONING (divide & conquer)
+- split large dataset into smaller chunks to improve query performance  & ||le processing. 
+DATA SKEW (avoid the traffic jam)
+- uneven data distribution can slow down jobs.
+- detect & fix skew to keep everything fast
+SCHEMA EVOLUTION ( evolve w/o plan)
+- change schema over time w/o breaking PL / downstream consumers
+IDEMPOTENCY ( safe to retry)
+- design processess so the same data can be processes multiple times w/o dups effect. 
+EXACTLY 1 PROCESSING ( 1 RECORD 1 O/P)
+- ensure each record is processed one & only once even in case of failures. 
+CDC (change data cpature)
+- track what changed. 
+- capture changes from source system to keep data upto date in near real time. 
+WATERMAKRING ( late but not lost)
+- handle out of order data in streams by using watermarks to balance completeness & lateness. 
+DATA LINEAGE ( follow the data trail)
+- track where data comes from, how it transforms & where it's used. 
+MEDALLION ARCHITECTURE
+- structure ur data layers from raw(bronze) to refined (silver) to trusted (gold)
+DATA OBSERVABILITY ( trust but verify)
+- Monitor DQ, freshness, volume & schemas to detect issues early.
+LAKEHOUSE ARCHITECTURE
+- combine flexibility of data lake + perf of data warehouse
+DATA CONTRACTS
+- define clear expectations for data b/w producers & consumers. 
+
 
 
 
