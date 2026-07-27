@@ -356,6 +356,53 @@ DATA CONTRACTS
 --------------
 - define clear expectations for data b/w producers & consumers. 
 
+OPTIMIZE
+-------
+- used to compact small files into larger ones to reduce fragmentation & improve query perf.
+- when combined with z-order --> it also combines data based on a specified cols (enabling faster data skipping & more efficient 
+query execution)
+- OPTIMIZE BRONZE.CLAIMS
+ZORDER BY MEMBER_ID
+- it physically co-locates related data in the same files based on col vlaues. 
+- in delta lake solves the small files prob using bin-packing
+- internally, it rewrites many small parquet files into fewer larger files 
+& updates the delta trans log w/o modifying files in place.
+
+VACUUM
+------
+- is a maintenance command in delta lake used to permanently delete old, unneeded old data files from storage. 
+- it helps control storage cost & remove obsolete files that are no longer part of the current table state. 
+- in delta lake, data is never over written in place
+when you update, delete, merge , optimize
+- delta creates new files & marks old one as "no longer active" in the trans log. 
+
+WHAT VACUUM DOES
+---------------
+- scans delta trans log
+- identifies files not referenced by current table state.
+- delte those files from storage. 
+
+RETENTION ( 7 days)
+- delta lake keeps olf diles for :
+- supports time travel
+- supports streaming consistency
+- prevents accidental deletion of active data. 
+
+HOW VACUUM WORKS INTERNALLY
+- reads delta trans log (_delta_log)
+- identifies 
+-- actvie files (current versions)
+-- deleted files (old versions)
+- compares against retention threshold. 
+- deletes files from storage. 
+without vaccum:
+- table updated daily.
+- after 1 month :
+- 100 GB active data
+- 900GB old files.
+- total storage : 1 TB. 
+
+
 
 
 
