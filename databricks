@@ -32,3 +32,24 @@ KEY FEATURES
 - check pointing
 - works with streaming + batch
 
+IF SPARK IS ALEADY FAST, WHY DID DATABRICKS BUILD PHOTON (EXECUTION ENGINE) IN c++ ?
+------------------------------------------------------------------------------------
+- c++ faster then java? - not the real reason
+- traditional spark spends a significant amount of time crating java objects & cleaning them up through garbage collection.
+- photon takes a different approach.
+- instead of managing millions of java objects, it processess data directly in native columnar memory 
+execution using vectorized execution.
+- it is faster because it changes how data is processed, allowing CPU'S to spend more time computing
+& less time managing memory.
+
+WHAT REALLY HAPPENS WHEN YOU CLICK RUN IN DATABRICKS?
+----------------------------------------------------
+1. command sent to driver
+2. spark creates a logical plan
+3. catalyst optimizer optimizes the query.
+4. physical plan generation
+5. DAG scheduler creates stage
+6. task sent to executors
+7. data processing happens
+8. results returned.
+
