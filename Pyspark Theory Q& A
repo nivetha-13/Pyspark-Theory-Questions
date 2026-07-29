@@ -74,7 +74,11 @@ improving performance for joins & aggregations
 - designed for efficient storage & analysis on big data
 - developed by twitter & now an Apache project. 
 - works with any data processing engine.
-- optimized for analytics, not for fast row level writes. 
+- optimized for analytics, not for fast row level writes.
+- often used with partitioning in folder structure to speed up queries.
+- use appropriate row group size ( 128 MB - 512 MB)
+- choose the right compression code (snappy)
+
 
 PARQUET FILE STRUCTURE
 -----------------------
@@ -117,6 +121,19 @@ EFFICIENT ENCODING - dictionary, Delta
 SPLITTABLE - enables ||le processing
 NESTED DATA SUPPORT - arrays, maps, structs
 CROSS PLATFORM - lang & engine agnostic.
+
+ADV OF PARQUET
+- high performance for analysis
+- reduced storage cost.
+- scalable for big data
+- works with many engines
+- self describing & schema evolution friendly
+
+LIMITATIONS
+- not efficient for row level updates.
+- schema changes require rewriting data
+- not suitable for small files (overhead)
+
 
 
 
