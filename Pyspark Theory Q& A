@@ -1,6 +1,11 @@
 Pyspark Common Questions (Theory)
 -----------------------------
 
+PYSPARK
+------
+- is python API for apache spark.
+- used to process large data in a distributed way using a python.
+
 APACHE SPARK vs HADOOP MAPREDUCE
 (the shift that changes big data forever)
 
@@ -19,6 +24,48 @@ SPARK
 - read -> trans -> trans-> write final o/p
 - built in ML libraries
 - databricks - managed spark with zero infra handover. 
+
+WHY IS SPARK FASTER THEN MR (Map Reduce) ?
+spark is fatser because :
+- it processes data in memory (RAM) instead of writing intermediate results to disk.
+- it has an optimized execution engine
+- it supports in-memory caching.
+
+DISTRIBUTED COMPUTING?
+- where many computers (nodes) work together to solvea big problem by dividing it into smaller parts.
+
+
+SPARK SESSION
+-------------
+- entry pt to work with pyspark
+- used to create df, read data & run SQL queries
+
+df in PYSPARK
+-------------
+- distributed collection of data org into rows & cols (similar to a table in DB)
+
+RDD ( Resilient distributed dataset)
+---
+- is an immutable distributed collection of data. (read only)
+- is a distributed collection of data.(across the cluster)
+- fault tolerant (linegae based)
+- lazy evaluation
+- can be processed in ||le. 
+
+RDD vs df
+--------
+RDD -- low level API(JAVA/ SCALA)  , has no schema, less optimised, uses more memory, trans on rows
+df  -- high level API (SQL like), has schema, faster because it is optimized, easy to use with SQL, less memory, columnar operation.
+
+ACCUMULATORS IN SPARK
+--------------------
+- is a write only variable that is used to add values from executors & send the result back to the driver
+- only "add" operations are allowed.
+- useful for counters, sums, metrics, etc..
+- the driver can read the accumulator value.
+
+
+
 
 
 
@@ -235,19 +282,25 @@ SHUFFLE
 - the same key land on the same partition. 
 
 10. Transformation
-- Operation that creates a new dataset from existing one. 
+- simply an Operation that creates / produces a new dataset from existing one. 
+- they are lazy (means that no matter how many operations you perform they are not executed immediately)
+
 
 11. NARROW TRANSFORMATION
 - each o/p partition depends on a single i/p partitions
+- no data movement across nodes is required, so spark can execute them w/i the same partition.
 - there is no shuffle involved
 - data stays in same partition
-- filter
-- map
-- select
-- withcolumn
+- filter()
+- map()
+- select()
+- withcolumn()
 
 12. WIDE TRANSFORMATION
 ------------------------
+- occurs when an o/p partition depends on multiple i/p partitions. 
+- this requir data shuffling across the cluster, which causes n/w i/o
+- creates new spark stage.
 - join , groupBy
 - when your data is redistributed across the clusters, data moves across partitions
 - in shuffle, the same kys land on the same partition. 
@@ -256,13 +309,23 @@ SHUFFLE
 - distinct
 - repartition
 - reduceBy
+- cache
 
+-- to reduce shuffling, we optimized transformations such as reduceByKey() instead of groupBy(), apply filtering before joins
 ACTION            
 -------
+- an operation that triggers actual computation
+
 - show()
 - collect()
 - count()
 - save()
+
+LAZY EVALUTION
+---------------
+- pyspark doesn't execute transf immendiately 
+- it waits untill an action is called, then it executes all the operations.
+
 
 
 12. SPARK CONTEXT 
@@ -311,9 +374,11 @@ ACTION
 
 17. PARTITIONING
 ----------------
+- process of dividing large datasets into smaller logical chunks on column values. 
+- it improves perf by reducing scans through partition pruning
 - Splitting data into seperate folders based on col value
 - The system reads only year = 2025 * Partition Pruning
-- best for low cardinality columns
+- best for low cardinality columns ( date, year, region)
 * Partition first , bucket inside partitions
 - data is split into partitions & distributed across executors
 - good partitioning ensures parallelism & avoids small / large tasks.
@@ -439,8 +504,8 @@ DATA CONTRACTS
 OPTIMIZE
 -------
 - used to compact small files into larger ones to reduce fragmentation & improve query perf.
-- when combined with z-order --> it also combines data based on a specified cols (enabling faster data skipping & more efficient 
-query execution)
+- when combined with z-order --> it also combines data based on a specified cols (enabling faster data skipping & more
+efficient query execution)
 - OPTIMIZE BRONZE.CLAIMS
 ZORDER BY MEMBER_ID
 - it physically co-locates related data in the same files based on col vlaues. 
