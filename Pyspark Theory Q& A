@@ -2,7 +2,7 @@ Pyspark Common Questions (Theory)
 -----------------------------
 
 PYSPARK
-------
+-------
 - is python API for apache spark.
 - used to process large data in a distributed way using a python.
 
